@@ -1,14 +1,7 @@
 import { matchesSearch } from "@/lib/search";
 import type { Locale } from "@/locales/messages";
-export type Topic =
-  "support" | "activities" | "care" | "pregnancy" | "specialists";
-export const topics: Topic[] = [
-  "support",
-  "activities",
-  "care",
-  "pregnancy",
-  "specialists",
-];
+export type Topic = "support" | "activities" | "care" | "specialists";
+export const topics: Topic[] = ["support", "activities", "care", "specialists"];
 export const demoAuthor = "demo-you";
 export interface Comment {
   id: string;

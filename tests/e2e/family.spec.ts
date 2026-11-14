@@ -14,13 +14,10 @@ test("сначала анкета, затем рекомендации; реда
   await expect(
     page.getByRole("heading", { name: "Сначала познакомимся" }),
   ).toBeVisible();
-  await page
-    .getByRole("textbox", { name: "Как называть ребёнка (необязательно)" })
-    .fill("Учебный ребёнок");
-  await page
-    .getByRole("combobox", { name: "Предпочтительный язык", exact: true })
-    .selectOption("kk");
-  await completeProfile(page, "ru", "12", true);
+  await completeProfile(page, "ru", "12", true, {
+    alias: "Учебный ребёнок",
+    language: "kk",
+  });
   await expect(
     page.getByRole("article").filter({ hasText: "Алия С." }),
   ).toHaveCount(1);
@@ -28,6 +25,12 @@ test("сначала анкета, затем рекомендации; реда
   await fits(page);
   await page
     .getByRole("link", { name: "Помощь ребёнку ↗", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Поиск помощи", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: "Ранее сохранённый каталог", exact: true })
     .click();
   await expect(page.getByRole("article")).toHaveCount(1);
   await expect(
@@ -46,13 +49,13 @@ test("сначала анкета, затем рекомендации; реда
   await page
     .getByRole("link", { name: "Изменить профиль", exact: true })
     .click();
-  await expect(page.getByRole("button", { name: "Сохранить и подобрать", exact: true })).toBeVisible();
-  await page
-    .getByRole("combobox", { name: "Город", exact: true })
-    .selectOption("Астана");
-  await page
-    .getByRole("button", { name: "Сохранить и подобрать", exact: true })
-    .click();
+  await expect(
+    page.getByRole("heading", { name: "Изменить профиль", exact: true }),
+  ).toBeVisible();
+  await completeProfile(page, "ru", "12", true, {
+    city: "Астана",
+    language: "kk",
+  });
   await expect(
     page.getByText("По профилю пока нет подходящих специалистов", {
       exact: true,
@@ -76,8 +79,9 @@ test("няня: три формата брони, пересечение, отм
   async function openNanny(mode: string) {
     await page
       .getByRole("navigation")
-      .getByRole("link", { name: "Няни", exact: true })
+      .getByRole("link", { name: "Поиск", exact: true })
       .click();
+    await page.getByRole("button", { name: "Няни", exact: true }).click();
     await page
       .getByRole("combobox", { name: "Формат занятости", exact: true })
       .selectOption(mode);
@@ -101,7 +105,9 @@ test("няня: три формата брони, пересечение, отм
   await page
     .getByRole("button", { name: "Создать демо-бронь", exact: true })
     .click();
-  await expect(page.getByRole("alert").filter({ hasText: "пересекающийся период" })).toBeVisible();
+  await expect(
+    page.getByRole("alert").filter({ hasText: "пересекающийся период" }),
+  ).toBeVisible();
   await page
     .getByRole("link", { name: "Мои бронирования", exact: true })
     .click();

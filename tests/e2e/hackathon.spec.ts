@@ -38,6 +38,8 @@ test("сравнение → выбор → обращение, язык сох�
   await page
     .getByRole("link", { name: "Помощь ребёнку ↗", exact: true })
     .click();
+  await expect(page.getByRole("heading", {name:"Поиск помощи",exact:true})).toBeVisible();
+  await page.getByRole("link",{name:"Ранее сохранённый каталог",exact:true}).click();
   await page
     .getByRole("combobox", { name: "Категория помощи", exact: true })
     .selectOption("communication");
@@ -92,7 +94,7 @@ test("сравнение → выбор → обращение, язык сох�
   await expect(page.getByRole("article")).toHaveCount(1);
   expect(errors).toEqual([]);
 });
-test("поддержка мамы: беременность, время, личный план и пустое состояние", async ({
+test("поддержка мамы: материнство, время, личный план и пустое состояние", async ({
   page,
 }) => {
   await page.goto("/ru");
@@ -105,7 +107,7 @@ test("поддержка мамы: беременность, время, лич�
   ).toBeVisible();
   await page
     .getByRole("combobox", { name: "Ваш этап", exact: true })
-    .selectOption("pregnancy");
+    .selectOption("parenting");
   await page
     .getByRole("combobox", { name: "Сколько у вас времени?", exact: true })
     .selectOption("15");
@@ -121,7 +123,7 @@ test("поддержка мамы: беременность, время, лич�
   await page.getByRole("link", { name: "Қаз", exact: true }).click();
   await expect(
     page.getByRole("combobox", { name: "Өмір кезеңіңіз", exact: true }),
-  ).toHaveValue("pregnancy");
+  ).toHaveValue("parenting");
   await expect(page.getByRole("article")).toHaveCount(2);
   await page
     .getByRole("link", { name: "Жоспарымды ашу →", exact: true })
@@ -134,7 +136,7 @@ test("поддержка мамы: беременность, время, лич�
   await fits(page);
   await page
     .getByRole("navigation")
-    .getByRole("link", { name: "Анаға", exact: true })
+    .getByRole("link", { name: "Для меня", exact: true })
     .click();
   await page
     .getByRole("combobox", { name: "Өмір кезеңіңіз", exact: true })
@@ -156,8 +158,7 @@ test("поддержка мамы: беременность, время, лич�
   });
   await page.reload();
   await page
-    .getByRole("navigation")
-    .getByRole("link", { name: "Менің жоспарым", exact: false })
+    .getByRole("link", { name: "Жоспарымды ашу →", exact: true })
     .click();
   await expect(
     page.getByRole("heading", { name: "Маршрутыңыз осы жерден басталады" }),

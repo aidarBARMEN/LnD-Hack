@@ -1,5 +1,5 @@
 import type { Locale } from "@/locales/messages";
-export type Stage = "pregnancy" | "newborn" | "parenting";
+export type Stage = "newborn" | "parenting";
 export type TimeFilter = "" | "15" | "30" | "60" | "over60";
 interface Activity {
   id: string;
@@ -12,7 +12,7 @@ export const activities: Activity[] = [
   {
     id: "reading",
     minutes: 10,
-    stages: ["pregnancy", "newborn", "parenting"],
+    stages: ["newborn", "parenting"],
     title: {
       ru: "Несколько страниц любимой книги",
       kk: "Сүйікті кітаптың бірнеше беті",
@@ -25,7 +25,7 @@ export const activities: Activity[] = [
   {
     id: "creative",
     minutes: 25,
-    stages: ["pregnancy", "newborn", "parenting"],
+    stages: ["newborn", "parenting"],
     title: {
       ru: "Небольшой творческий проект",
       kk: "Шағын шығармашылық жұмыс",
@@ -38,7 +38,7 @@ export const activities: Activity[] = [
   {
     id: "language",
     minutes: 15,
-    stages: ["pregnancy", "newborn", "parenting"],
+    stages: ["newborn", "parenting"],
     title: {
       ru: "Язык или новая тема для себя",
       kk: "Өзіңізге арналған тіл немесе жаңа тақырып",
@@ -51,7 +51,7 @@ export const activities: Activity[] = [
   {
     id: "conversation",
     minutes: 30,
-    stages: ["pregnancy", "newborn", "parenting"],
+    stages: ["newborn", "parenting"],
     title: { ru: "Разговор с близким человеком", kk: "Жақын адаммен әңгіме" },
     description: {
       ru: "Запланируйте беседу о том, что важно вам. Это идея личного досуга, а не консультация психолога.",
@@ -61,7 +61,7 @@ export const activities: Activity[] = [
   {
     id: "film",
     minutes: 50,
-    stages: ["pregnancy", "parenting"],
+    stages: ["parenting"],
     title: {
       ru: "Фильм или лекция по интересам",
       kk: "Қызықты фильм немесе дәріс",
@@ -74,7 +74,7 @@ export const activities: Activity[] = [
   {
     id: "hobby",
     minutes: 75,
-    stages: ["pregnancy", "parenting"],
+    stages: ["parenting"],
     title: {
       ru: "Время для любимого увлечения",
       kk: "Сүйікті әуестікке уақыт",

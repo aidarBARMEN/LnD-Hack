@@ -42,8 +42,7 @@ describe("простой сценарий хакатона", () => {
     ).toBe(true);
     expect(searchActivities("newborn", "over60")).toEqual([]);
   });
-  it("этап жизни фильтрует занятия, беременность представлена явно", () => {
-    expect(searchActivities("pregnancy", "").length).toBeGreaterThan(0);
+  it("этап жизни фильтрует занятия", () => {
     expect(searchActivities("newborn", "").length).toBeLessThan(
       activities.length,
     );

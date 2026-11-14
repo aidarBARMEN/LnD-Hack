@@ -23,6 +23,8 @@ import { useLocale } from "@/ui/use-locale";
 import type { Stage, TimeFilter } from "@/features/support/service";
 import { BrandMark, LineIcon, type IconName } from "@/ui/brand-art";
 import type { ChildProfile } from "@/features/children/service";
+import type { MotherProfile } from "@/features/children/mother-profile";
+import { blankDraft, type ProviderDraft } from "@/features/revision/service";
 import {
   bookingReducer,
   type BookingState,
@@ -35,6 +37,12 @@ import {
   type ForumAction,
 } from "@/features/community/service";
 interface DemoState {
+  motherProfile: MotherProfile | null;
+  setMotherProfile: Dispatch<SetStateAction<MotherProfile | null>>;
+  providerDraft: ProviderDraft;
+  setProviderDraft: Dispatch<SetStateAction<ProviderDraft>>;
+  chats: Record<string, string[]>;
+  setChats: Dispatch<SetStateAction<Record<string, string[]>>>;
   childProfile: ChildProfile | null;
   setChildProfile: Dispatch<SetStateAction<ChildProfile | null>>;
   bookingState: BookingState;
@@ -62,6 +70,11 @@ export function useDemo() {
   return context;
 }
 export function DemoProvider({ children }: { children: ReactNode }) {
+  const [motherProfile, setMotherProfile] = useState<MotherProfile | null>(
+    null,
+  );
+  const [providerDraft, setProviderDraft] = useState(blankDraft);
+  const [chats, setChats] = useState<Record<string, string[]>>({});
   const [childProfile, setChildProfile] = useState<ChildProfile | null>(null);
   const [bookingState, dispatchBooking] = useReducer(bookingReducer, {
     items: [],
@@ -87,6 +100,12 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   return (
     <DemoContext.Provider
       value={{
+        motherProfile,
+        setMotherProfile,
+        providerDraft,
+        setProviderDraft,
+        chats,
+        setChats,
         childProfile,
         setChildProfile,
         bookingState,
@@ -140,23 +159,21 @@ function LanguageSwitch() {
 }
 export default function DemoShell({ children }: { children: ReactNode }) {
   const { goals, comparisonIds } = useDemo();
-  const { locale, t, f } = useLocale();
+  const { locale, t } = useLocale();
   const pathname = usePathname();
   const links = [
     [`/${locale}`, t.home],
-    [`/${locale}/catalog?audience=child`, t.catalog],
-    [`/${locale}/nannies`, f.nannies],
-    [`/${locale}/community`, f.community],
-    [`/${locale}/for-me`, t.mother],
-    [`/${locale}/route`, t.plan],
+    [`/${locale}/search`, "Поиск"],
+    [`/${locale}/chats`, "Чаты"],
+    [`/${locale}/for-me`, "Для меня"],
+    [`/${locale}/profile`, "Профиль"],
   ];
   const navIcons: IconName[] = [
     "home",
     "child",
-    "person",
     "community",
     "heart",
-    "plan",
+    "person",
   ];
   return (
     <>
@@ -211,6 +228,7 @@ export default function DemoShell({ children }: { children: ReactNode }) {
       <footer className="container footer">
         <span>{t.brand}</span>
         <p>{t.footer}</p>
+        <Link href={`/${locale}/route`}>{t.plan}</Link>
         <Link href="/ru/documents">{t.legacy}</Link>
       </footer>
     </>

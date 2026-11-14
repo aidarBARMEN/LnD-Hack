@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 export function BrandMark() {
   return (
     <svg viewBox="0 0 56 56" fill="none" aria-hidden="true" focusable="false">
-      <rect width="56" height="56" rx="19" fill="#2563eb" />
+      <rect width="56" height="56" rx="19" fill="#087d63" />
       <path
         d="M16 34V24a8 8 0 0 1 16 0v10"
         stroke="#FFFDF8"

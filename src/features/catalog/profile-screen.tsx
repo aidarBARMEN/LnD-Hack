@@ -5,6 +5,8 @@ import { localizeOffering } from "./translations";
 import OfferingSummary from "./offering-summary";
 import { useLocale } from "@/ui/use-locale";
 import { useDemo } from "@/ui/demo-shell";
+import { listings } from "@/features/revision/service";
+import { VisitPreparation } from "@/features/revision/search";
 export default function ProfileScreen({ offering }: { offering: Offering }) {
   const { locale, t } = useLocale();
   const { dispatch, notify } = useDemo();
@@ -23,6 +25,9 @@ export default function ProfileScreen({ offering }: { offering: Offering }) {
       <article className="profile-panel">
         <OfferingSummary item={item} />
         <div className="actions">
+          <Link className="button light" href={`/${locale}/chats/${item.id}`}>
+            Написать
+          </Link>
           <Link
             className="button primary"
             href={`/${locale}/contact/${item.id}`}
@@ -49,6 +54,23 @@ export default function ProfileScreen({ offering }: { offering: Offering }) {
           </Link>
         </div>
       </article>
+      <VisitPreparation
+        item={
+          listings.find((l) => l.id === offering.id) ?? {
+            ...listings[0]!,
+            id: offering.id,
+            name: offering.name,
+            specialty:
+              offering.audience === "adult"
+                ? "parent"
+                : offering.category === "development"
+                  ? "learning"
+                  : offering.category === "mobility"
+                    ? "ergo"
+                    : "child",
+          }
+        }
+      />
     </div>
   );
 }

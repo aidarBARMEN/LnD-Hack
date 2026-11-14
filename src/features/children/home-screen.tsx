@@ -1,5 +1,8 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
+import { RouteProgress, Recommendations } from "@/features/revision/profile";
+import ForMePage from "@/features/support/screen";
 
 import { useDemo } from "@/ui/demo-shell";
 import { useLocale } from "@/ui/use-locale";
@@ -12,14 +15,60 @@ import {
   LineIcon,
 } from "@/ui/brand-art";
 export default function HomeScreen() {
-  const { childProfile } = useDemo();
+  const { childProfile, motherProfile } = useDemo();
   const { locale, t, f } = useLocale();
-  if (!childProfile) return <OnboardingScreen />;
+  const [chosenView, setView] = useState<string | null>(null);
+  const view =
+    chosenView ??
+    (!childProfile &&
+    motherProfile?.completed &&
+    motherProfile.audience === "mother"
+      ? "mother"
+      : "child");
+  const switcher = (
+    <div
+      className="home-switch"
+      role="group"
+      aria-label="Для кого нужна помощь"
+    >
+      <button
+        className={`button ${view === "child" ? "primary" : "light"}`}
+        aria-pressed={view === "child"}
+        onClick={() => setView("child")}
+      >
+        Для ребёнка
+      </button>
+      <button
+        className={`button ${view === "mother" ? "primary" : "light"}`}
+        aria-pressed={view === "mother"}
+        onClick={() => setView("mother")}
+      >
+        Для меня
+      </button>
+    </div>
+  );
+  if (view === "mother")
+    return (
+      <>
+        {switcher}
+        <ForMePage />
+      </>
+    );
+  if (!childProfile)
+    return (
+      <>
+        {switcher}
+        <OnboardingScreen />
+      </>
+    );
+
   const recommendations = recommendOfferings(childProfile)
+    .filter((item) => item.kind === "Специалист")
     .slice(0, 3)
     .map((item) => localizeOffering(item, locale));
   return (
     <div className="simple-home">
+      {switcher}
       <div className="profile-match">
         <div>
           <b>
@@ -77,10 +126,7 @@ export default function HomeScreen() {
           <h2>{t.childTitle}</h2>
           <p>{t.childLead}</p>
           <span className="entry-feature">{t.childFeature}</span>
-          <Link
-            className="button primary"
-            href={`/${locale}/catalog?audience=child`}
-          >
+          <Link className="button primary" href={`/${locale}/search`}>
             {t.childAction}
           </Link>
         </article>
@@ -103,12 +149,20 @@ export default function HomeScreen() {
           </Link>
         </article>
       </div>
+      <RouteProgress />
+      <Recommendations />
+      <div className="actions">
+        <Link className="button primary" href={`/${locale}/search`}>
+          Поиск специалистов
+        </Link>
+        <Link className="button light" href={`/${locale}/route`}>
+          Мой план — задачи
+        </Link>
+      </div>
       <section className="recommendations">
         <div className="steps-heading">
           <h2>{f.personalized}</h2>
-          <Link href={`/${locale}/catalog?audience=child`}>
-            {f.allSpecialists} →
-          </Link>
+          <Link href={`/${locale}/search`}>{f.allSpecialists} →</Link>
         </div>
         <p className="quiet">{f.recommendLead}</p>
         {recommendations.length === 0 ? (

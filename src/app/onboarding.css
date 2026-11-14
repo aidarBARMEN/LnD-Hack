@@ -1,0 +1,367 @@
+/* One question at a time; same app and same in-memory profile. */
+body:has(.typeform-onboarding) {
+  padding-bottom: 0;
+}
+body:has(.typeform-onboarding) .header .simple-nav,
+body:has(.typeform-onboarding) .session-note,
+body:has(.typeform-onboarding) .footer,
+body:has(.typeform-onboarding) .home-switch,
+body:has(.typeform-onboarding) .comparison-tray {
+  display: none;
+}
+body:has(.typeform-onboarding) main.container {
+  padding-top: 22px;
+  padding-bottom: 18px;
+}
+.typeform-onboarding {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.tf-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.tf-top h1 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: #476459;
+}
+.tf-top > span {
+  font-size: 13px;
+  color: #476459;
+  flex-shrink: 0;
+}
+.tf-progress {
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  display: block;
+  border: 0;
+  border-radius: 8px;
+  background: #d5e6dc;
+  overflow: hidden;
+}
+.tf-progress::-webkit-progress-bar {
+  background: #d5e6dc;
+}
+.tf-progress::-webkit-progress-value {
+  background: #087d63;
+  transition: width 0.2s ease;
+}
+.tf-progress::-moz-progress-bar {
+  background: #087d63;
+}
+.tf-form {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - 260px);
+}
+.tf-question {
+  flex: 1;
+  padding: 40px 0 24px;
+  animation: question-in 0.2s ease-out;
+}
+.tf-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: #537263;
+}
+.tf-question h2 {
+  font-size: clamp(27px, 4vw, 37px);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  margin: 12px 0 14px;
+  color: #153c35;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.tf-question h2:focus {
+  outline: none;
+}
+.tf-hint {
+  font-size: 16px;
+  color: #526b60;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+.tf-text-label {
+  font-size: 14px;
+  color: #456354;
+}
+.tf-text-label input,
+.tf-text-label textarea {
+  font-size: 21px;
+  line-height: 1.5;
+  border: 0;
+  border-bottom: 2px solid #8bbca7;
+  border-radius: 0;
+  background: transparent;
+  padding: 14px 0;
+  color: #153c35;
+  box-shadow: none;
+  min-height: 56px;
+}
+.tf-text-label textarea {
+  font-size: 17px;
+  resize: vertical;
+  min-height: 150px;
+}
+.tf-text-label input::placeholder,
+.tf-text-label textarea::placeholder {
+  color: #708a7c;
+  opacity: 1;
+}
+.tf-options {
+  display: grid;
+  gap: 10px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.tf-options legend.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.tf-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 15px 16px;
+  margin: 0;
+  border: 1.5px solid #b6d1c2;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+  color: #234f3d;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.tf-option.selected {
+  border-color: #087d63;
+  background: #e0f1e7;
+  box-shadow: inset 0 0 0 1px #087d63;
+}
+.tf-option input {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  margin: 0;
+  accent-color: #087d63;
+}
+.tf-option .tf-key {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #adcaba;
+  border-radius: 6px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #f3f8f5;
+}
+.tf-option > span:not(.tf-key):not(.tf-tick) {
+  flex: 1;
+}
+.tf-option small {
+  display: block;
+  font-size: 13px;
+  color: #526b60;
+  line-height: 1.55;
+  margin-top: 5px;
+}
+.tf-tick {
+  color: #087d63;
+  font-weight: 700;
+  font-size: 21px;
+  min-width: 18px;
+}
+.tf-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  padding: 16px 0 max(10px, env(safe-area-inset-bottom));
+  background: #f1f6f3;
+  border-top: 1px solid #d7e6dd;
+}
+.tf-buttons {
+  display: flex;
+  gap: 10px;
+}
+.tf-buttons .button {
+  min-height: 54px;
+  font-size: 16px;
+  border-radius: 14px;
+}
+.tf-next {
+  flex: 1;
+  justify-content: space-between !important;
+}
+.tf-back {
+  min-width: 110px;
+}
+.tf-skip {
+  display: block;
+  margin: 6px auto 0;
+  padding: 10px 16px;
+  min-height: 44px;
+  background: transparent;
+  border: 0;
+  color: #466658;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.tf-privacy {
+  font-size: 12px;
+  line-height: 1.55;
+  color: #566f62;
+  margin: 10px 0 0;
+}
+.tf-mother-link {
+  display: block;
+  text-align: center;
+  min-height: 44px;
+  padding: 12px 0;
+  color: #07634e;
+  font-size: 14px;
+}
+.tf-review {
+  border: 1px solid #cce0d3;
+  border-radius: 16px;
+  background: white;
+  overflow: hidden;
+}
+.tf-review-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #e0ebe4;
+}
+.tf-review-row:last-child {
+  border-bottom: 0;
+}
+.tf-review-row > div {
+  flex: 1;
+  min-width: 0;
+}
+.tf-review-row span {
+  display: block;
+  font-size: 12px;
+  color: #60786a;
+}
+.tf-review-row p {
+  margin: 4px 0 0;
+  font-size: 16px;
+  color: #153c35;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.tf-edit {
+  font-size: 13px;
+  min-height: 44px;
+  padding: 8px 6px;
+  background: transparent;
+  border: 0;
+  color: #07634e;
+  text-decoration: underline;
+}
+.tf-profile-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+@keyframes question-in {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tf-question {
+    animation: none;
+  }
+  .tf-progress::-webkit-progress-value {
+    transition: none;
+  }
+}
+@media (max-width: 700px) {
+  body:has(.typeform-onboarding) .header-inner {
+    padding: 14px 18px;
+  }
+  body:has(.typeform-onboarding) .header .brand small {
+    display: none;
+  }
+  body:has(.typeform-onboarding) main.container {
+    padding: 18px 20px 12px;
+  }
+  .tf-form {
+    min-height: calc(100dvh - 190px);
+  }
+  .tf-question {
+    padding-top: 28px;
+  }
+  .tf-question h2 {
+    font-size: 29px;
+  }
+  .tf-hint {
+    font-size: 15px;
+    margin-bottom: 22px;
+  }
+  .tf-option {
+    padding: 14px 12px;
+    min-height: 60px;
+  }
+  .tf-back {
+    min-width: 58px;
+  }
+  .tf-back span {
+    display: none;
+  }
+  .tf-privacy {
+    font-size: 11px;
+  }
+  .tf-option .tf-key {
+    display: none;
+  }
+  /* Keep existing screens comfortable on touch devices, including iOS keyboards. */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  input:not([type="radio"]):not([type="checkbox"]),
+  select {
+    min-height: 48px;
+  }
+  .button {
+    min-height: 48px;
+  }
+  .header .simple-nav a {
+    min-height: 56px;
+  }
+  .chat-compose {
+    bottom: calc(77px + env(safe-area-inset-bottom));
+  }
+  .profile-match .button {
+    font-size: 15px;
+  }
+  .page-heading .lead {
+    font-size: 16px;
+  }
+}

@@ -4,6 +4,8 @@ import { DemoProvider } from "@/ui/demo-shell";
 import "./globals.css";
 import "./brand.css";
 import "./family.css";
+import "./messenger.css";
+import "./onboarding.css";
 export const metadata: Metadata = {
   title: "Бірге — поддержка семьи",
   description: "Помощь ребёнку и время для мамы. Учебный прототип.",

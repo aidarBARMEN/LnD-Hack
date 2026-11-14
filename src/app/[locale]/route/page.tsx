@@ -1,4 +1,6 @@
 "use client";
+import { listings, publishedListing } from "@/features/revision/service";
+import { PlanTemplates } from "@/features/revision/profile";
 import { useState } from "react";
 import Link from "next/link";
 import { useDemo } from "@/ui/demo-shell";
@@ -7,7 +9,7 @@ import { offerings } from "@/features/catalog/service";
 import { localizeOffering } from "@/features/catalog/translations";
 import { activities } from "@/features/support/service";
 export default function RoutePage() {
-  const { goals, dispatch, notify } = useDemo();
+  const { goals, dispatch, notify, providerDraft } = useDemo();
   const { locale, t } = useLocale();
   const [title, setTitle] = useState("");
   const completed = goals.filter((g) => g.done).length;
@@ -17,6 +19,7 @@ export default function RoutePage() {
         <h1>{t.planHeading}</h1>
         <p className="lead">{t.planLead}</p>
       </div>
+      <PlanTemplates />
       <div className="route-layout">
         <section>
           <form
@@ -140,7 +143,38 @@ export default function RoutePage() {
                     )}
                     {goal.offeringIds.map((id) => {
                       const original = offerings.find((o) => o.id === id);
-                      if (!original) return null;
+                      if (!original) {
+                        const extra = publishedListing(providerDraft);
+                        const listing = (
+                          extra ? [...listings, extra] : listings
+                        ).find((i) => i.id === id);
+                        if (!listing) return null;
+                        return (
+                          <div key={id} className="saved-offering">
+                            <b>{listing.name}</b>
+                            <p>
+                              Пример · {listing.district} · условия уточняются
+                            </p>
+                            <div className="actions">
+                              <Link href={`/${locale}/search/${id}`}>
+                                Открыть карточку
+                              </Link>
+                              <button
+                                className="text-button"
+                                onClick={() =>
+                                  dispatch({
+                                    type: "removeOffering",
+                                    id: goal.id,
+                                    offeringId: id,
+                                  })
+                                }
+                              >
+                                {t.removeOffering}
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      }
                       const item = localizeOffering(original, locale);
                       return (
                         <div key={id} className="saved-offering">

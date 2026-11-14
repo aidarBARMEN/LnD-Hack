@@ -6,6 +6,7 @@ import { useLocale } from "@/ui/use-locale";
 import OnboardingScreen from "@/features/children/onboarding-screen";
 import { searchNannies, type BookingMode } from "./service";
 import { LineIcon } from "@/ui/brand-art";
+import { districts, nannyDetails } from "@/features/revision/service";
 export default function NannyScreen() {
   const { childProfile } = useDemo();
   const { locale, t, f } = useLocale();
@@ -17,6 +18,10 @@ export default function NannyScreen() {
   const [mode, setMode] = useState<BookingMode | "">("");
   const [maxHourly, setMaxHourly] = useState("");
   const [byProfile, setByProfile] = useState(true);
+  const [district, setDistrict] = useState("");
+  const [minRating, setMinRating] = useState("");
+  const [sort, setSort] = useState("distance");
+  const [nearby, setNearby] = useState(false);
   if (!childProfile) return <OnboardingScreen />;
   const results = searchNannies({
     query,
@@ -25,7 +30,20 @@ export default function NannyScreen() {
     mode,
     maxHourly: mode === "monthly" || mode === "permanent" ? "" : maxHourly,
     profile: byProfile ? childProfile : null,
-  });
+  })
+    .filter(
+      (n) =>
+        (!district || nannyDetails[n.id]?.district === district) &&
+        (!minRating || nannyDetails[n.id]!.score >= Number(minRating)) &&
+        (!nearby || nannyDetails[n.id]!.distance <= 3),
+    )
+    .sort((a, b) =>
+      sort === "price"
+        ? (a.rates.hourly ?? Infinity) - (b.rates.hourly ?? Infinity)
+        : sort === "rating"
+          ? nannyDetails[b.id]!.score - nannyDetails[a.id]!.score
+          : nannyDetails[a.id]!.distance - nannyDetails[b.id]!.distance,
+    );
   return (
     <>
       <div className="page-heading">
@@ -42,6 +60,45 @@ export default function NannyScreen() {
       </div>
       <p className="notice">{f.nannyDemo}</p>
       <div className="nanny-filters">
+        <label>
+          Район Алматы
+          <select
+            value={district}
+            onChange={(e) => setDistrict(e.target.value)}
+          >
+            <option value="">Все районы</option>
+            {districts.map((d) => (
+              <option key={d}>{d}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Рейтинг от
+          <select
+            value={minRating}
+            onChange={(e) => setMinRating(e.target.value)}
+          >
+            <option value="">Любой</option>
+            <option value="4">4 ★</option>
+            <option value="5">5 ★</option>
+          </select>
+        </label>
+        <label>
+          Сортировка
+          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="distance">По близости — пример</option>
+            <option value="price">По почасовой цене</option>
+            <option value="rating">По рейтингу</option>
+          </select>
+        </label>
+        <label className="check">
+          <input
+            type="checkbox"
+            checked={nearby}
+            onChange={(e) => setNearby(e.target.checked)}
+          />
+          Рядом со мной — пример до 3км
+        </label>
         <label>
           {f.search}
           <input
@@ -113,6 +170,10 @@ export default function NannyScreen() {
             setMode("");
             setMaxHourly("");
             setByProfile(false);
+            setDistrict("");
+            setMinRating("");
+            setSort("distance");
+            setNearby(false);
           }}
         >
           {f.reset}
@@ -140,6 +201,29 @@ export default function NannyScreen() {
                 <h2>{n.name[locale]}</h2>
               </div>
               <p>{n.skills[locale]}</p>
+              <p>
+                {nannyDetails[n.id]!.age} лет · опыт{" "}
+                {nannyDetails[n.id]!.experience} лет ·{" "}
+                {nannyDetails[n.id]!.district || n.city}
+              </p>
+              <p>{nannyDetails[n.id]!.score} ★ · 1 отзыв — пример</p>
+              <details>
+                <summary>Квалификация, график и отзывы</summary>
+                <p>{nannyDetails[n.id]!.courses}</p>
+                <p>{nannyDetails[n.id]!.support}</p>
+                <p>{nannyDetails[n.id]!.schedule}</p>
+                <blockquote>
+                  Пример отзыва: заранее обсудили распорядок и удобное время.
+                  Оценка {nannyDetails[n.id]!.score} из 5.
+                </blockquote>
+                <p>
+                  Возраст, опыт, расстояние, курс и отзыв — учебные сведения,
+                  документы не проверены.
+                </p>
+              </details>
+              <Link className="button light" href={`/${locale}/chats/${n.id}`}>
+                Написать
+              </Link>
               <div className="chips">
                 <span>
                   {n.ages[0]}–{n.ages[1]} {t.years}

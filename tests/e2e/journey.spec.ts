@@ -26,6 +26,8 @@ test("главная → каталог → цель → выполнение; �
   await page
     .getByRole("link", { name: "Помощь ребёнку ↗", exact: true })
     .click();
+  await expect(page.getByRole("heading", {name:"Поиск помощи",exact:true})).toBeVisible();
+  await page.getByRole("link",{name:"Ранее сохранённый каталог",exact:true}).click();
   await expect(
     page.getByRole("combobox", { name: "Кому нужна помощь" }),
   ).toHaveValue("child");

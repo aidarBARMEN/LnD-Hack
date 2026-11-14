@@ -1,5 +1,17 @@
 # Mama Pro — проект API v1
 
+## R1 — добавленные локальные контракты
+
+Новые UI `/search`, `/search/[id]`, `/journey`, `/profile`, `/publish`, `/chats`, `/chats/[id]`.
+Серверных API не добавлено. CareDetails содержит diagnosis/pmpk/prescriptions≤1000символов,
+флаги имеющихся документов, отмеченные специалистами услуги и completedStages0–3.
+`searchListings` — section/query/district/specialty/maxPrice/minRating/format/language/sort/nearby.
+`canPublish` валидирует данные/учебный документ/согласие; draft скрыт. Published — только память
+вкладки после отдельного действия имитации оплаты. Rating — среднее reviews, тариф не участвует.
+`chats` — локальный словарь id→string[]; сообщения≤1000символов. Никаких отправок или ответов AI.
+`downloadFamilyPdf` загружает локальный шрифт и создаёт Blob PDF в браузере; сведения не входят
+в HTTP request, URL, серверные логи. Нет серверного endpoint экспорта чувствительных данных.
+
 ## F1 — фактический локальный контракт
 
 Новые страницы `/[locale]/profile/child`, `/nannies`, `/nannies/[id]/book`, `/bookings`,
@@ -352,3 +364,11 @@ init/finalize/download/delete, provider-review list/edit reply, comment edit/del
 admin role/settings/audit/import и lifecycle status. Они закрывают требования M01–M18, для которых
 краткая таблица PDF не задавала отдельного endpoint. Auth остаётся Supabase SDK/Server Actions.
 `/resources` и `/support-partners` public; community требует parent — подтверждается Q06.
+
+## T2 — профиль мамы
+
+MotherProfile: name≤50, age (необязательный целый0–120), city, language, needs[], time,
+audience mother/child, completed. `validMother` проверяет допустимые значения. Сохраняется
+только в клиентском контексте, новых API нет. Имя родителя передаётся между первыми шагами;
+детские и материнские ответы разделены. При выборе мамы сохраняются фильтр времени и
+ссылки на психолога для родителей, сообщество или социального помощника по её отметкам.
