@@ -5,6 +5,10 @@ test("имя мамы → выбор получателя → только во�
 }) => {
   await page.goto("/mobile?view=family");
   const app = page.frameLocator('iframe[title="Мобильное приложение Бірге"]');
+  await app.getByText("Дополнительные сведения", { exact: true }).click();
+  await app
+    .getByRole("link", { name: "Подробная анкета", exact: true })
+    .click();
   const next = () => app.getByRole("button", { name: /^Далее/ }).click();
   await app
     .getByRole("textbox", { name: "Как вас зовут?", exact: true })
@@ -14,7 +18,7 @@ test("имя мамы → выбор получателя → только во�
     app.getByRole("heading", { name: "Кому нужна помощь?", exact: true }),
   ).toBeVisible();
   await app
-    .getByRole("radio", { name: "Мне — поддержка для мамы", exact: true })
+    .getByRole("radio", { name: "Мне — поддержка для родителя", exact: true })
     .check();
   await next();
   await expect(
@@ -63,12 +67,9 @@ test("имя мамы → выбор получателя → только во�
     fullPage: false,
     animations: "disabled",
   });
-  await app
-    .getByRole("navigation")
-    .getByRole("link", { name: "Профиль", exact: true })
-    .click();
+  await app.getByRole("link", { name: "Профиль", exact: true }).click();
   await expect(
-    app.getByRole("heading", { name: "Профиль мамы", exact: true }),
+    app.getByRole("heading", { name: "Профиль родителя", exact: true }),
   ).toBeVisible();
   await app
     .getByRole("link", { name: "Изменить данные о себе", exact: true })
@@ -77,7 +78,7 @@ test("имя мамы → выбор получателя → только во�
     app.getByRole("textbox", { name: "Как вас зовут?", exact: true }),
   ).toHaveValue("Учебная Алия");
   await app.getByRole("link", { name: /^Бірге/ }).click();
-  await app.getByRole("button", { name: "Для ребёнка", exact: true }).click();
+
   await completeProfile(app, "ru", "5", false, { alias: "Учебный ребёнок" });
   await app
     .getByRole("navigation")
@@ -89,7 +90,7 @@ test("имя мамы → выбор получателя → только во�
     .click();
   await expect(
     app.getByRole("heading", {
-      name: "Поддержка нужна всей семье",
+      name: "В вашем темпе",
       exact: true,
     }),
   ).toBeVisible();

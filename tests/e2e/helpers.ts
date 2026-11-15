@@ -12,6 +12,20 @@ interface ProfileOptions {
   };
 }
 export async function enterChildBranch(page: Page | FrameLocator) {
+  await page.getByRole("heading").first().waitFor();
+  if (
+    await page
+      .getByRole("heading", { name: /Кому нужна поддержка|Қолдау кімге қажет/ })
+      .isVisible()
+  ) {
+    await page
+      .getByText(/^(Дополнительные сведения|Қосымша мәліметтер)$/)
+      .click();
+    await page
+      .getByRole("link", { name: /Подробная анкета|Толық сауалнама/ })
+      .click();
+    await page.getByRole("textbox").first().waitFor();
+  }
   if (
     await page
       .getByRole("textbox", { name: "Как вас зовут?", exact: true })
@@ -138,7 +152,7 @@ export async function completeProfile(
     .click();
   await expect(
     page.getByRole("heading", {
-      name: kk ? "Қолдау бүкіл отбасына қажет" : "Поддержка нужна всей семье",
+      name: kk ? "Сізге ыңғайлы қарқынмен" : "В вашем темпе",
       exact: true,
     }),
   ).toBeVisible();

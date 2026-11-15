@@ -5,8 +5,7 @@ import { localizeOffering } from "./translations";
 import OfferingSummary from "./offering-summary";
 import { useLocale } from "@/ui/use-locale";
 import { useDemo } from "@/ui/demo-shell";
-import { listings } from "@/features/revision/service";
-import { VisitPreparation } from "@/features/revision/search";
+
 export default function ProfileScreen({ offering }: { offering: Offering }) {
   const { locale, t } = useLocale();
   const { dispatch, notify } = useDemo();
@@ -15,7 +14,7 @@ export default function ProfileScreen({ offering }: { offering: Offering }) {
     <div className="narrow-page">
       <div className="page-heading">
         <Link
-          href={`/${locale}/catalog?audience=${item.audience}`}
+          href={`/${locale}/search?audience=${item.audience}`}
           className="text-link"
         >
           {t.backCatalog}
@@ -25,9 +24,6 @@ export default function ProfileScreen({ offering }: { offering: Offering }) {
       <article className="profile-panel">
         <OfferingSummary item={item} />
         <div className="actions">
-          <Link className="button light" href={`/${locale}/chats/${item.id}`}>
-            Написать
-          </Link>
           <Link
             className="button primary"
             href={`/${locale}/contact/${item.id}`}
@@ -47,30 +43,28 @@ export default function ProfileScreen({ offering }: { offering: Offering }) {
               notify(t.selectedNotice);
             }}
           >
-            {t.choose}
+            {locale === "kk"
+              ? "Алғашқы хабарламаны дайындау"
+              : "Подготовить обращение"}
           </Link>
           <Link className="button light" href={`/${locale}/compare`}>
             {t.compare}
           </Link>
         </div>
       </article>
-      <VisitPreparation
-        item={
-          listings.find((l) => l.id === offering.id) ?? {
-            ...listings[0]!,
-            id: offering.id,
-            name: offering.name,
-            specialty:
-              offering.audience === "adult"
-                ? "parent"
-                : offering.category === "development"
-                  ? "learning"
-                  : offering.category === "mobility"
-                    ? "ergo"
-                    : "child",
-          }
-        }
-      />
+      <section className="profile-panel">
+        <h2>{locale === "kk" ? "Тексеру туралы" : "Что проверено"}</h2>
+        <p>
+          {locale === "kk"
+            ? "Бұл ойдан шығарылған анкета. Байланыс, диплом мен тәжірибе тексерілмеген. Нақты маманға жолданбайды."
+            : "Это вымышленная анкета. Контакт, диплом и опыт не проверялись. Обращение не отправляется реальному специалисту."}
+        </p>
+        <p>
+          {locale === "kk"
+            ? "Нақты каталогта әр тексерудің көзі, күні және нәтижесі көрсетіледі. Файлды жүктеу тексеруге тең емес."
+            : "В реальном каталоге у каждой проверки будут источник, дата и результат. Загрузка файла не равна проверке."}
+        </p>
+      </section>
     </div>
   );
 }

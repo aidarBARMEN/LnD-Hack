@@ -22,42 +22,49 @@ export default function RoutePage() {
       <PlanTemplates />
       <div className="route-layout">
         <section>
-          <form
-            className="add-goal"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!title.trim()) return;
-              dispatch({
-                type: "add",
-                goal: {
-                  id: crypto.randomUUID(),
-                  title: title.trim(),
-                  done: false,
-                  offeringIds: [],
-                  origin: "manual",
-                  quote: null,
-                  historical: false,
-                },
-              });
-              setTitle("");
-              notify(t.goalAdded);
-            }}
-          >
-            <label htmlFor="goal">{t.goalLabel}</label>
-            <div className="input-row">
-              <input
-                id="goal"
-                required
-                maxLength={200}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder={t.goalPlaceholder}
-              />
-              <button className="button primary" disabled={!title.trim()}>
-                {t.addGoal}
-              </button>
-            </div>
-          </form>
+          <details className="profile-panel">
+            <summary>
+              {locale === "kk"
+                ? "Өз әрекетімді қосу"
+                : "Добавить своё действие"}
+            </summary>
+            <form
+              className="add-goal"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!title.trim()) return;
+                dispatch({
+                  type: "add",
+                  goal: {
+                    id: crypto.randomUUID(),
+                    title: title.trim(),
+                    done: false,
+                    offeringIds: [],
+                    origin: "manual",
+                    quote: null,
+                    historical: false,
+                  },
+                });
+                setTitle("");
+                notify(t.goalAdded);
+              }}
+            >
+              <label htmlFor="goal">{t.goalLabel}</label>
+              <div className="input-row">
+                <input
+                  id="goal"
+                  required
+                  maxLength={200}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={t.goalPlaceholder}
+                />
+                <button className="button primary" disabled={!title.trim()}>
+                  {t.addGoal}
+                </button>
+              </div>
+            </form>
+          </details>
           {goals.length === 0 ? (
             <div className="empty">
               <h2>{t.emptyPlan}</h2>
@@ -233,7 +240,9 @@ export default function RoutePage() {
           <p>{t.planAsideBody}</p>
           <hr />
           <p>{t.session}</p>
-          <Link href="/ru/documents">{t.legacy}</Link>
+          <Link href={`/${locale}/pmpk`}>
+            {locale === "kk" ? "ПМПК оқу мысалы" : "Учебный пример ПМПК"}
+          </Link>
         </aside>
       </div>
     </>

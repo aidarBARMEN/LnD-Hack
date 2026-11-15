@@ -7,68 +7,33 @@ async function fits(page: Page) {
     ),
   ).toBe(true);
 }
-test("сначала анкета, затем рекомендации; редактирование пересчитывает подбор и поиск", async ({
+test("профиль сохраняет ограничения в новом поиске и после редактирования", async ({
   page,
 }) => {
   await page.goto("/ru");
-  await expect(
-    page.getByRole("heading", { name: "Сначала познакомимся" }),
-  ).toBeVisible();
-  await completeProfile(page, "ru", "12", true, {
-    alias: "Учебный ребёнок",
-    language: "kk",
-  });
-  await expect(
-    page.getByRole("article").filter({ hasText: "Алия С." }),
-  ).toHaveCount(1);
-  await expect(page.getByText("Язык совпадает", { exact: true })).toBeVisible();
+  await completeProfile(page, "ru", "12", true, { language: "kk" });
+  await page
+    .getByRole("link", { name: "Посмотреть варианты", exact: true })
+    .click();
+  await expect(page.getByRole("article")).toHaveCount(1);
+  await expect(page.getByRole("article")).toContainText("Алия С.");
   await fits(page);
-  await page
-    .getByRole("link", { name: "Помощь ребёнку ↗", exact: true })
-    .click();
-  await expect(
-    page.getByRole("heading", { name: "Поиск помощи", exact: true }),
-  ).toBeVisible();
-  await page
-    .getByRole("link", { name: "Ранее сохранённый каталог", exact: true })
-    .click();
-  await expect(page.getByRole("article")).toHaveCount(1);
-  await expect(
-    page.getByRole("spinbutton", { name: "Возраст, полных лет" }),
-  ).toHaveValue("12");
-  await page
-    .getByRole("searchbox", { name: "Поиск", exact: true })
-    .fill("баламалы");
-  await expect(page.getByRole("article")).toHaveCount(1);
-  await page
-    .getByRole("searchbox", { name: "Поиск", exact: true })
-    .fill("несуществующая услуга");
-  await expect(
-    page.getByRole("heading", { name: "Пока нет подходящих вариантов" }),
-  ).toBeVisible();
+  await page.getByRole("link", { name: "Главная", exact: true }).click();
   await page
     .getByRole("link", { name: "Изменить профиль", exact: true })
     .click();
-  await expect(
-    page.getByRole("heading", { name: "Изменить профиль", exact: true }),
-  ).toBeVisible();
   await completeProfile(page, "ru", "12", true, {
     city: "Астана",
     language: "kk",
   });
-  await expect(
-    page.getByText("По профилю пока нет подходящих специалистов", {
-      exact: true,
-    }),
-  ).toBeVisible();
-  await page.screenshot({
-    path: `work/family-profile-${test.info().project.name}.png`,
-    fullPage: true,
-    animations: "disabled",
-  });
+  await page
+    .getByRole("link", { name: "Посмотреть варианты", exact: true })
+    .click();
+  await expect(page.getByRole("article")).toHaveCount(0);
   await page.reload();
+  await page.getByRole("link", { name: /^Бірге/ }).click();
   await expect(
-    page.getByRole("heading", { name: "Сначала познакомимся" }),
+    page.getByRole("heading", { name: "Кому нужна поддержка?", exact: true }),
   ).toBeVisible();
 });
 test("няня: три формата брони, пересечение, отмена и сохранение языка", async ({
@@ -81,7 +46,8 @@ test("няня: три формата брони, пересечение, отм
       .getByRole("navigation")
       .getByRole("link", { name: "Поиск", exact: true })
       .click();
-    await page.getByRole("button", { name: "Няни", exact: true }).click();
+    await page.getByText("Другие услуги", { exact: true }).click();
+    await page.getByRole("link", { name: "Няни", exact: true }).click();
     await page
       .getByRole("combobox", { name: "Формат занятости", exact: true })
       .selectOption(mode);

@@ -85,6 +85,14 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [goals, dispatch] = useReducer(routeReducer, []);
   const [notice, setNotice] = useState({ text: "", locale });
   const notify = (text: string) => setNotice({ text, locale });
+  useEffect(() => {
+    if (!notice.text) return;
+    const timer = setTimeout(
+      () => setNotice((current) => ({ ...current, text: "" })),
+      6000,
+    );
+    return () => clearTimeout(timer);
+  }, [notice]);
   const [review, setReview] = useState<Review | null>(null);
   const [comparisonIds, setComparisonIds] = useState<string[]>([]);
   const [filtersByAudience, setFiltersByAudience] = useState<
@@ -163,18 +171,11 @@ export default function DemoShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const links = [
     [`/${locale}`, t.home],
-    [`/${locale}/search`, "Поиск"],
-    [`/${locale}/chats`, "Чаты"],
-    [`/${locale}/for-me`, "Для меня"],
-    [`/${locale}/profile`, "Профиль"],
+    [`/${locale}/search`, locale === "kk" ? "Іздеу" : "Поиск"],
+    [`/${locale}/for-me`, locale === "kk" ? "Өзіме" : "Для меня"],
+    [`/${locale}/route`, t.plan],
   ];
-  const navIcons: IconName[] = [
-    "home",
-    "child",
-    "community",
-    "heart",
-    "person",
-  ];
+  const navIcons: IconName[] = ["home", "child", "heart", "person"];
   return (
     <>
       <a className="skip" href="#main">
@@ -190,6 +191,12 @@ export default function DemoShell({ children }: { children: ReactNode }) {
               {t.brand}
               <small>{t.tagline}</small>
             </span>
+          </Link>
+          <Link
+            href={`/${locale}/profile`}
+            aria-label={locale === "kk" ? "Профиль" : "Профиль"}
+          >
+            <LineIcon name="person" className="nav-icon" />
           </Link>
           <Suspense>
             <LanguageSwitch />
@@ -229,7 +236,9 @@ export default function DemoShell({ children }: { children: ReactNode }) {
         <span>{t.brand}</span>
         <p>{t.footer}</p>
         <Link href={`/${locale}/route`}>{t.plan}</Link>
-        <Link href="/ru/documents">{t.legacy}</Link>
+        <Link href={`/${locale}/pmpk`}>
+          {locale === "kk" ? "ПМПК оқу мысалы" : "Учебный пример ПМПК"}
+        </Link>
       </footer>
     </>
   );

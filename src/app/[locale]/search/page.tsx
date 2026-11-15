@@ -1,25 +1,21 @@
-import { SearchScreen } from "@/features/revision/search";
-import {
-  sections,
-  specialties,
-  type Section,
-} from "@/features/revision/service";
+import MobileSearch from "@/features/catalog/mobile-search";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ section?: string; specialty?: string }>;
+  searchParams: Promise<{ specialty?: string; audience?: string }>;
 }) {
   const q = await searchParams;
+  const category: Record<string, string> = {
+    speech: "communication",
+    learning: "development",
+    child: "psychology",
+    parent: "psychology",
+    ergo: "mobility",
+  };
   return (
-    <SearchScreen
-      initialSection={
-        q.section && q.section in sections
-          ? (q.section as Section)
-          : "specialist"
-      }
-      initialSpecialty={
-        q.specialty && q.specialty in specialties ? q.specialty : ""
-      }
+    <MobileSearch
+      category={category[q.specialty ?? ""] ?? ""}
+      adult={q.audience === "adult" || q.specialty === "parent"}
     />
   );
 }

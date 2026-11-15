@@ -24,10 +24,12 @@ test("главная → каталог → цель → выполнение; �
     animations: "disabled",
   });
   await page
-    .getByRole("link", { name: "Помощь ребёнку ↗", exact: true })
+    .getByRole("link", { name: "Посмотреть варианты", exact: true })
     .click();
-  await expect(page.getByRole("heading", {name:"Поиск помощи",exact:true})).toBeVisible();
-  await page.getByRole("link",{name:"Ранее сохранённый каталог",exact:true}).click();
+  await page.getByText("Другие услуги", { exact: true }).click();
+  await page
+    .getByRole("link", { name: "Сравнить варианты", exact: true })
+    .click();
   await expect(
     page.getByRole("combobox", { name: "Кому нужна помощь" }),
   ).toHaveValue("child");
@@ -60,6 +62,7 @@ test("главная → каталог → цель → выполнение; �
     })
     .check();
   await expect(page.getByText("Выполнено 1 из 1")).toBeVisible();
+  await page.getByText("Добавить своё действие", { exact: true }).click();
   await page
     .getByRole("textbox", { name: "Что вы хотите сделать?" })
     .fill("Найти группу общения");
@@ -96,7 +99,7 @@ test("поддержка взрослому, пустая выдача и сбр
   await page.goto("/ru");
   await completeProfile(page);
   await page
-    .getByRole("link", { name: "Поддержка для меня ↗", exact: true })
+    .getByRole("link", { name: "Поддержка для меня", exact: true })
     .click();
   await page
     .getByRole("link", {
@@ -150,10 +153,16 @@ test("документ: цитаты, принятие, исправление, 
   );
   await page
     .getByRole("link", {
-      name: "Учебный разбор документа (на русском)",
+      name: "Учебный пример ПМПК",
       exact: true,
     })
     .first()
+    .click();
+  await page
+    .getByRole("link", {
+      name: "Другие учебные примеры (на русском)",
+      exact: true,
+    })
     .click();
   await expect(page.getByText("Отклонено", { exact: true })).toBeVisible();
   await page

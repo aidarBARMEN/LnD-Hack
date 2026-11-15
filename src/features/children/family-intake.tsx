@@ -187,7 +187,7 @@ export function FamilyIntake() {
           <Options
             name="Кому нужна помощь?"
             values={[
-              { value: "mother", label: "Мне — поддержка для мамы" },
+              { value: "mother", label: "Мне — поддержка для родителя" },
               { value: "child", label: "Моему ребёнку" },
             ]}
             selected={audience}

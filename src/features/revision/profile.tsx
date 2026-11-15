@@ -21,7 +21,7 @@ export function Recommendations() {
   const codes = recommendedSpecialties(childProfile);
   return (
     <section className="profile-panel">
-      <h2>Рекомендуемая коррекционная помощь</h2>
+      <h2>Варианты по вашему запросу</h2>
       <p className="quiet">
         По вашим отметкам в профиле. Это список для поиска, а не назначение по
         диагнозу.
@@ -133,7 +133,7 @@ export function ProfileHub() {
   if (!childProfile && motherProfile?.completed)
     return (
       <>
-        <h1>Профиль мамы</h1>
+        <h1>Профиль родителя</h1>
         <MotherSummary />
         <Link href={`/${locale}/profile/child`}>Добавить данные ребёнка</Link>
       </>
@@ -207,14 +207,27 @@ export function PlanTemplates() {
   const { goals, dispatch } = useDemo();
   const { locale } = useLocale();
   return (
-    <section className="profile-panel">
-      <h2>Ближайшие задачи</h2>
-      <p>Добавляйте только то, что нужно вашей семье.</p>
+    <details className="profile-panel">
+      <summary>
+        {locale === "kk" ? "Жоспарға арналған идеялар" : "Идеи для плана"}
+      </summary>
+      <h2>{locale === "kk" ? "Келесі әрекеттер" : "Ближайшие задачи"}</h2>
+      <p>
+        {locale === "kk"
+          ? "Отбасыңызға қажет әрекеттерді ғана қосыңыз."
+          : "Добавляйте только то, что нужно вашей семье."}
+      </p>
       <div className="actions">
         {[
-          "Записаться на первую встречу",
-          "Уточнить оформление справки",
-          "Взять документы на приём",
+          locale === "kk"
+            ? "Алғашқы кездесуге жазылу"
+            : "Записаться на первую встречу",
+          locale === "kk"
+            ? "Анықтаманы рәсімдеуді нақтылау"
+            : "Уточнить оформление справки",
+          locale === "kk"
+            ? "Кездесуге құжаттарды алу"
+            : "Взять документы на приём",
         ].map((title, i) => (
           <button
             className="button light"
@@ -240,7 +253,16 @@ export function PlanTemplates() {
           </button>
         ))}
       </div>
-      <Link href={`/${locale}/journey`}>Мой маршрут — этапы помощи →</Link>
-    </section>
+      <details>
+        <summary>
+          {locale === "kk" ? "Қосымша мәліметтер" : "Дополнительные сведения"}
+        </summary>
+        <Link href={`/${locale}/journey`}>
+          {locale === "kk"
+            ? "Бұрынғы кезеңдер (орысша)"
+            : "Ранее отмеченные этапы"}
+        </Link>
+      </details>
+    </details>
   );
 }

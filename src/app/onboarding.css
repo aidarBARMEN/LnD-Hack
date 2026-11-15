@@ -365,3 +365,13 @@ body:has(.typeform-onboarding) main.container {
     font-size: 16px;
   }
 }
+
+.simple-nav { grid-template-columns: repeat(4,minmax(0,1fr)); }
+
+.profile-panel > summary { cursor: pointer; min-height: 48px; padding: 12px 0; font-weight: 600; }
+
+.header-inner > a[aria-label] { display: grid; place-items: center; min-width: 44px; min-height: 44px; }
+
+.mobile-search h1 { font-size: clamp(26px, 4vw, 40px); line-height: 1.2; margin: 20px 0 12px; }
+.mobile-search .compact-filters:not([open]) { padding: 0 16px; margin: 12px 0; }
+.mobile-search > .notice { margin: 12px 0; }

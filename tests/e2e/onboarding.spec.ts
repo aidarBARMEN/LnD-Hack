@@ -84,7 +84,7 @@ test("все вопросы можно пропустить и навигаци�
   await app.getByRole("button", { name: /^Сохранить и подобрать/ }).click();
   await expect(
     app.getByRole("heading", {
-      name: "Поддержка нужна всей семье",
+      name: "В вашем темпе",
       exact: true,
     }),
   ).toBeVisible();

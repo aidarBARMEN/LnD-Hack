@@ -15,12 +15,10 @@ test("дополнительные ширины390и768: два входа и ma
     await page.goto("/kk");
     await completeProfile(page, "kk");
     await expect(
-      page.getByRole("heading", { name: "Қолдау бүкіл отбасына қажет" }),
+      page.getByRole("heading", { name: "Сізге ыңғайлы қарқынмен" }),
     ).toBeVisible();
     await fits(page);
-    await page
-      .getByRole("link", { name: "Өзіме қолдау ↗", exact: true })
-      .click();
+    await page.getByRole("link", { name: "Өзіме қолдау", exact: true }).click();
     await expect(
       page.getByRole("combobox", { name: "Өмір кезеңіңіз", exact: true }),
     ).toBeVisible();
@@ -36,10 +34,12 @@ test("сравнение → выбор → обращение, язык сох�
   await page.goto("/ru");
   await completeProfile(page);
   await page
-    .getByRole("link", { name: "Помощь ребёнку ↗", exact: true })
+    .getByRole("link", { name: "Посмотреть варианты", exact: true })
     .click();
-  await expect(page.getByRole("heading", {name:"Поиск помощи",exact:true})).toBeVisible();
-  await page.getByRole("link",{name:"Ранее сохранённый каталог",exact:true}).click();
+  await page.getByText("Другие услуги", { exact: true }).click();
+  await page
+    .getByRole("link", { name: "Сравнить варианты", exact: true })
+    .click();
   await page
     .getByRole("combobox", { name: "Категория помощи", exact: true })
     .selectOption("communication");
@@ -75,7 +75,7 @@ test("сравнение → выбор → обращение, язык сох�
   await page.getByText("Тексеру туралы не белгілі", { exact: true }).click();
   await expect(page.getByText(/Құжаттар тексерілмеген/)).toBeVisible();
   await page
-    .getByRole("link", { name: "Таңдап, хабар дайындау", exact: true })
+    .getByRole("link", { name: "Алғашқы хабарламаны дайындау", exact: true })
     .click();
   await expect(
     page.getByRole("textbox", { name: "Хабар мәтіні" }),
@@ -100,10 +100,10 @@ test("поддержка мамы: материнство, время, личн�
   await page.goto("/ru");
   await completeProfile(page);
   await page
-    .getByRole("link", { name: "Поддержка для меня ↗", exact: true })
+    .getByRole("link", { name: "Поддержка для меня", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Время для себя — тоже важно" }),
+    page.getByRole("heading", { name: "Поддержка нужна и вам" }),
   ).toBeVisible();
   await page
     .getByRole("combobox", { name: "Ваш этап", exact: true })
@@ -136,7 +136,7 @@ test("поддержка мамы: материнство, время, личн�
   await fits(page);
   await page
     .getByRole("navigation")
-    .getByRole("link", { name: "Для меня", exact: true })
+    .getByRole("link", { name: "Өзіме", exact: true })
     .click();
   await page
     .getByRole("combobox", { name: "Өмір кезеңіңіз", exact: true })

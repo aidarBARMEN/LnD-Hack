@@ -1,4 +1,5 @@
 "use client";
+import { recommendOfferings } from "@/features/children/service";
 import { useState } from "react";
 import Link from "next/link";
 import { useDemo } from "@/ui/demo-shell";
@@ -36,6 +37,14 @@ export function SearchScreen({
   const results = searchListings(
     extra ? [...listings, extra] : listings,
     filters,
+  ).filter(
+    (item) =>
+      !childProfile ||
+      item.section !== "specialist" ||
+      recommendOfferings(childProfile).some(
+        (candidate) => candidate.id === item.id,
+      ) ||
+      item.specialty === "parent",
   );
   const set = (key: keyof typeof filters, value: string | boolean) =>
     setFilters({ ...filters, [key]: value });
@@ -262,7 +271,10 @@ export function SearchScreen({
       )}
       <p>
         <Link href={`/${locale}/publish`}>Разместить профиль специалиста</Link>{" "}
-        · <Link href={`/${locale}/catalog?audience=child`}>Ранее сохранённый каталог</Link>
+        ·{" "}
+        <Link href={`/${locale}/catalog?audience=child`}>
+          Ранее сохранённый каталог
+        </Link>
       </p>
     </>
   );
@@ -285,7 +297,9 @@ export function ListingScreen({ id }: { id: string }) {
   const saved = goals.some((g) => g.offeringIds.includes(id));
   return (
     <>
-      <Link href={`/${locale}/search?section=${item.section}`}>← В поиск</Link>
+      <Link href={`/${locale}/directory?section=${item.section}`}>
+        ← В поиск
+      </Link>
       <p className="notice">
         Пример. Люди, цены, отзывы и отметки проверки вымышлены. Реальных мест и
         записи здесь нет.

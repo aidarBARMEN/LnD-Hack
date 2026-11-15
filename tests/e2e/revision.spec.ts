@@ -12,6 +12,7 @@ test("профиль → этапы → задачи → PDF; без берем�
       specialists: ["Логопед"],
     },
   });
+  await page.getByRole("link", { name: "Профиль", exact: true }).click();
   await page
     .getByRole("link", { name: "Открыть маршрут", exact: true })
     .click();
@@ -26,13 +27,11 @@ test("профиль → этапы → задачи → PDF; без берем�
   await page
     .getByRole("link", { name: "Мой план — ближайшие задачи", exact: true })
     .click();
+  await page.getByText("Идеи для плана", { exact: true }).click();
   await page
     .getByRole("button", { name: "+ Взять документы на приём", exact: true })
     .click();
-  await page
-    .getByRole("navigation")
-    .getByRole("link", { name: "Профиль", exact: true })
-    .click();
+  await page.getByRole("link", { name: "Профиль", exact: true }).click();
   const downloading = page.waitForEvent("download");
   await page.getByRole("button", { name: "Скачать PDF", exact: true }).click();
   const download = await downloading;
@@ -40,14 +39,16 @@ test("профиль → этапы → задачи → PDF; без берем�
   await download.saveAs(path);
   expect((await readFile(path)).subarray(0, 4).toString()).toBe("%PDF");
   await page.getByRole("link", { name: "Найти", exact: true }).click();
+  await page.getByText("Изменить фильтры", { exact: true }).click();
   await expect(
-    page.getByRole("combobox", { name: "Услуга", exact: true }),
-  ).toHaveValue("speech");
+    page.getByRole("combobox", { name: "Категория помощи", exact: true }),
+  ).toHaveValue("communication");
   await page
     .getByRole("navigation")
     .getByRole("link", { name: "Для меня", exact: true })
     .click();
   await expect(page.getByText(/беременн/i)).toHaveCount(0);
+  await page.getByText("Сообщества и ресурсы", { exact: true }).click();
   await expect(
     page.getByRole("link", { name: /Сообщество родителей Бірге/ }),
   ).toBeVisible();
@@ -58,7 +59,7 @@ test("профиль → этапы → задачи → PDF; без берем�
   ).toBe(true);
 });
 test("разделы поиска, фильтры, карточка и демо-чат", async ({ page }) => {
-  await page.goto("/ru/search");
+  await page.goto("/ru/directory");
   const navContrasts = await page
     .getByRole("navigation")
     .getByRole("link")
@@ -134,6 +135,10 @@ test("разделы поиска, фильтры, карточка и демо-
     .getByRole("navigation")
     .getByRole("link", { name: "Поиск", exact: true })
     .click();
+  await page.getByText("Другие услуги", { exact: true }).click();
+  await page
+    .getByRole("link", { name: "Дополнительные разделы", exact: true })
+    .click();
   await page
     .getByRole("button", { name: "Центры дневного пребывания", exact: true })
     .click();
@@ -203,6 +208,10 @@ test("черновик специалиста скрыт, демо-оплата 
   await page
     .getByRole("navigation")
     .getByRole("link", { name: "Поиск", exact: true })
+    .click();
+  await page.getByText("Другие услуги", { exact: true }).click();
+  await page
+    .getByRole("link", { name: "Дополнительные разделы", exact: true })
     .click();
   await page
     .getByRole("searchbox", { name: "Удобный поиск", exact: true })

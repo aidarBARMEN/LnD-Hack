@@ -1,5 +1,5 @@
 import { validSex, type Sex } from "./sex";
-import type { Category } from "../catalog/contracts";
+import type { Category, Filters } from "../catalog/contracts";
 import { emptyFilters, searchOfferings } from "../catalog/service";
 import {
   documentNames,
@@ -46,14 +46,15 @@ export function validProfile(profile: ChildProfile) {
         )))
   );
 }
-export function recommendOfferings(profile: ChildProfile) {
+export function recommendOfferings(profile: ChildProfile, filters: Partial<Filters> = {}) {
   return searchOfferings({
     ...emptyFilters,
     audience: "child",
     age: profile.age === null ? "" : String(profile.age),
     city: profile.city,
     language: profile.language,
+    ...filters,
   }).filter(
-    (item) => !profile.needs.length || profile.needs.includes(item.category),
+    (item) => !!filters.category || !profile.needs.length || profile.needs.includes(item.category),
   );
 }

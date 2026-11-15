@@ -7,12 +7,12 @@ test("телефон содержит интерактивное приложе�
   await page.goto("/mobile");
   const app = page.frameLocator('iframe[title="Мобильное приложение Бірге"]');
   await expect(
-    app.getByRole("heading", { name: "Сначала познакомимся", exact: true }),
+    app.getByRole("heading", { name: "Кому нужна поддержка?", exact: true }),
   ).toBeVisible();
   await completeProfile(app, "ru", "5");
   await expect(
     app.getByRole("heading", {
-      name: "Поддержка нужна всей семье",
+      name: "В вашем темпе",
       exact: false,
     }),
   ).toBeVisible();
@@ -21,9 +21,12 @@ test("телефон содержит интерактивное приложе�
     .getByRole("link", { name: "Поиск", exact: true })
     .click();
   await expect(
-    app.getByRole("heading", { name: "Поиск помощи", exact: true }),
+    app.getByRole("heading", {
+      name: "Варианты по вашему запросу",
+      exact: true,
+    }),
   ).toBeVisible();
-  await expect(app.getByRole("navigation").getByRole("link")).toHaveCount(5);
+  await expect(app.getByRole("navigation").getByRole("link")).toHaveCount(4);
   await app
     .getByRole("navigation")
     .getByRole("link", { name: "Главная", exact: true })

@@ -23,74 +23,41 @@ export default function ForMePage() {
   return (
     <>
       <div className="page-heading">
-        <p className="eyebrow">{t.mother}</p>
-        <h1>{t.motherHeading}</h1>
+        <p className="eyebrow">{locale === "kk" ? "Өзіме" : "Для меня"}</p>
+        <h1>
+          {locale === "kk" ? "Сізге де қолдау қажет" : "Поддержка нужна и вам"}
+        </h1>
         <p className="lead">{t.motherIntro}</p>
       </div>
       <MotherSummary />
       <p className="notice">{t.activityDemo}</p>
-      <section className="profile-panel">
-        <h2>Сообщества, фонды и чтение</h2>
-        <p className="quiet">
-          Примеры ресурсов для знакомства. Условия участия уточняйте у
-          организаций.
+      <details className="profile-panel">
+        <summary>
+          {locale === "kk"
+            ? "Қауымдастықтар және ресурстар"
+            : "Сообщества и ресурсы"}
+        </summary>
+        <div className="actions">
+          <Link href={`/${locale}/community`}>
+            {locale === "kk"
+              ? "Бірге ата-аналар қауымдастығы"
+              : "Сообщество родителей Бірге"}
+          </Link>
+          <a href="https://mamapro.kz/" target="_blank" rel="noreferrer">
+            Mama Pro ↗
+          </a>
+          <Link href={`/${locale}/profile/mother`}>
+            {locale === "kk"
+              ? "Өзім туралы мәліметтер"
+              : "Дополнить данные о себе"}
+          </Link>
+        </div>
+        <p>
+          {locale === "kk"
+            ? "Тәуелсіз ресурстар. Қатысу шарттарын ұйымдастырушыдан нақтылаңыз."
+            : "Независимые ресурсы. Условия участия уточняйте у организаторов."}
         </p>
-        <Link className="messenger-row" href={`/${locale}/community`}>
-          <span className="round-avatar">Б</span>
-          <div>
-            <strong>Сообщество родителей Бірге</strong>
-            <small>
-              Пример форума: вопросы, опыт и поддержка. Только в вашей вкладке.
-            </small>
-          </div>
-        </Link>
-        <a
-          className="messenger-row"
-          href="https://mamapro.kz/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span className="round-avatar">М</span>
-          <div>
-            <strong>Фонд «Мама Про»</strong>
-            <small>
-              Пример ресурса: программы поддержки мам. Официальный сайт, условия
-              уточняются.
-            </small>
-          </div>
-        </a>
-        <a
-          className="messenger-row"
-          href="https://egov.kz/cms/ru/articles/family_support/foundation"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span className="round-avatar">Ф</span>
-          <div>
-            <strong>Справочник благотворительных фондов</strong>
-            <small>Пример ресурса: перечень организаций на eGov.</small>
-          </div>
-        </a>
-        <a
-          className="messenger-row"
-          href="https://www.unicef.org/kazakhstan/media/221/file/%D0%BA%D1%80%D0%B0%D1%82%D0%BA%D0%B8%D0%B9%20%D0%BE%D0%B1%D0%B7%D0%BE%D1%80%20%D0%BD%D0%B0%20%D1%80%D1%83%D1%81%D1%81.pdf"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span className="round-avatar">Ч</span>
-          <div>
-            <strong>Чтение о доступе к социальной помощи</strong>
-            <small>
-              Пример литературы: исследовательский обзор ЮНИСЕФ. Не инструкция
-              по оформлению.
-            </small>
-          </div>
-        </a>
-        <p className="quiet">
-          Ссылки проверены 14.11.2026. Независимые ресурсы, партнёрство не
-          заявляется.
-        </p>
-      </section>
+      </details>
       <section className="maternal-filters" aria-label={t.filtersTitle}>
         <label>
           {t.stage}
