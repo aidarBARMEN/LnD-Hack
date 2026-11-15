@@ -1,5 +1,11 @@
 # Публикация демо Бірге
 
+Публичная версия: https://birge-family.vercel.app
+Мобильное представление: https://birge-family.vercel.app/mobile
+Vercel project: aidarbarmens-projects/birge-family
+Первый production deployment: dpl_B6RS7qouLh7555ZzRSh5KVSVdcQn, commit f59a5dc.
+Проверен публичный путь: анкета → подбор (Алматы/5/kk) → карточка → обращение → план.
+
 Готовность на 15.11.2026: lint, typecheck, 55 unit, 40 browser E2E и production build прошли.
 Репозиторий: https://github.com/aidarBARMEN/LnD-Hack
 

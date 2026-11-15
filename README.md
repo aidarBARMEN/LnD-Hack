@@ -1,5 +1,7 @@
 # Бірге
 
+Открыть прототип: https://birge-family.vercel.app · [В рамке телефона](https://birge-family.vercel.app/mobile)
+
 Название выбрано пользователем: «Бірге — вместе». Прототип для Mama Pro Social Impact Hackathon.
 Визуальная система: [BRAND_GUIDE](docs/BRAND_GUIDE.md).
 
