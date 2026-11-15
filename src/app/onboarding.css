@@ -375,3 +375,9 @@ body:has(.typeform-onboarding) main.container {
 .mobile-search h1 { font-size: clamp(26px, 4vw, 40px); line-height: 1.2; margin: 20px 0 12px; }
 .mobile-search .compact-filters:not([open]) { padding: 0 16px; margin: 12px 0; }
 .mobile-search > .notice { margin: 12px 0; }
+
+.navigator-log { max-height: 400px; overflow-y: auto; padding: 12px; background: #e8f2ee; border-radius: 18px; margin: 16px 0; }
+.navigator-bubble { background: white; border-radius: 16px; padding: 16px; margin: 10px 0; max-width: 95%; overflow-wrap: anywhere; }
+.navigator-user { background: #c9eadc; margin-left: auto; }
+.navigator-screen textarea { font-size: 16px; }
+.navigator-screen .actions { margin: 16px 0; }

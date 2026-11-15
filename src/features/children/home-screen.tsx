@@ -59,6 +59,17 @@ export default function HomeScreen() {
           {kk ? "Мысалды талдау" : "Разобрать пример"}
         </Link>
       </section>
+      <section className="profile-panel">
+        <h2>{kk ? "Қайдан бастауға болады?" : "Не знаете, с чего начать?"}</h2>
+        <p>
+          {kk
+            ? "Оқу чатында құжаттағы бағыттарды қарап, маманға сұрақ дайындаңыз."
+            : "В учебном чате разберите направления из заключения и подготовьте вопросы специалисту."}
+        </p>
+        <Link className="button primary" href={`/${locale}/assistant`}>
+          {kk ? "Навигаторға сұрақ қою" : "Спросить навигатора"}
+        </Link>
+      </section>
       <div className="actions">
         <Link href={`/${locale}/for-me`}>
           {kk ? "Өзіме қолдау" : "Поддержка для меня"}

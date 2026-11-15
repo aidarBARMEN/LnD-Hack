@@ -1,5 +1,13 @@
 # Mama Pro — проект API v1
 
+## N1 — локальный чат
+
+`navigatorReply(intent, ids, locale)` принимает только specialist/reason/questions и известные
+ID синтетических документов. `freeTextReply(locale)` возвращает подготовленный fallback.
+Никаких сетевых вызовов для сообщений, OCR или AI. Подтверждение пишет needs и RouteGoal
+с цитатой; отклонение не изменяет профиль/план. Реальные файлы не принимаются.
+
+
 ## U1 — локальные изменения
 
 `recommendOfferings(profile, filters?)` — общие правила основного подбора. Явные фильтры

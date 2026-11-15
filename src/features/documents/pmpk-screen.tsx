@@ -59,6 +59,9 @@ export default function PmpkScreen() {
   }
   return (
     <div className="narrow-page">
+      <Link href={`/${locale}/assistant`}>
+        {kk ? "Оқу чатына өту →" : "Открыть учебный чат →"}
+      </Link>
       <h1>{kk ? "ПМПК ұсынымдарын қарау" : "Разбор рекомендаций ПМПК"}</h1>
       <p className="notice">
         {kk
